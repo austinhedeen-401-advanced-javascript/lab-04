@@ -39,13 +39,13 @@ describe('Categories Model', () => {
     let obj = { name: 'Test Category' };
     return categories.create(obj)
       .then(record => {
-        return categories.get(record.id)
-          .then(category => {
-            Object.keys(obj).forEach(key => {
-              expect(category[0][key]).toEqual(obj[key]);
-            });
-          }); // TODO - refactor this out to promise chain
-      });
+        return categories.get(record.id);
+      })
+      .then(category => {
+        Object.keys(obj).forEach(key => {
+          expect(category[0][key]).toEqual(obj[key]);
+        });
+      }); // TODO - refactor this out to promise chain
   });
 
   it('can update() a category', () => {
