@@ -39,7 +39,7 @@ describe('Categories Model', () => {
     let obj = { name: 'Test Category' };
     return categories.create(obj)
       .then(record => {
-        return categories.get(record._id)
+        return categories.get(record.id)
           .then(category => {
             Object.keys(obj).forEach(key => {
               expect(category[0][key]).toEqual(obj[key]);
@@ -49,7 +49,24 @@ describe('Categories Model', () => {
   });
 
   it('can update() a category', () => {
-    // TODO - test update()
+    let obj = { name: 'Test Category' };
+    let updated = { name: 'Test Updated' };
+    return categories.create(obj)
+      .then(record => {
+        return categories.get(record.id);
+      })
+      .then(category => {
+        updated.id = category[0].id;
+        return categories.update(category[0].id, updated);
+      })
+      .then(record => {
+        return categories.get(record.id);
+      })
+      .then(category => {
+        Object.keys(updated).forEach(key => {
+          expect(category[0][key]).toEqual(updated[key]);
+        });
+      });
   });
 
   it('can delete() a category', () => {
