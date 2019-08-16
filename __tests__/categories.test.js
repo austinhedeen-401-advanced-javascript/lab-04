@@ -6,7 +6,7 @@ describe('Categories Model', () => {
 
   beforeEach(() => {
     categories = new Categories();
-  })
+  });
 
   // How might we repeat this to check on types?
   it('sanitize() returns undefined with missing requirements', () => {
@@ -24,11 +24,11 @@ describe('Categories Model', () => {
     const schema = categories.schema;
     const testRecord = {};
     for (let field in schema) {
-      if (schema[type] === 'string') {
+      if (schema[field].type === 'string') {
         testRecord[field] = 42;
-      } else if (schema[type] === 'number') {
+      } else if (schema[field].type === 'number') {
         testRecord[field] = 'number';
-      } else if (schema[type] === 'boolean') {
+      } else if (schema[field].type === 'boolean') {
         testRecord[field] = 'true';
       }
     }
