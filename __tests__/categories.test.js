@@ -21,7 +21,18 @@ describe('Categories Model', () => {
   });
 
   it('sanitize() returns undefined with arguments of the wrong type', () => {
-    // TODO - test that sanitize() type checks
+    const schema = categories.schema;
+    const testRecord = {};
+    for (let field in schema) {
+      if (schema[type] === 'string') {
+        testRecord[field] = 42;
+      } else if (schema[type] === 'number') {
+        testRecord[field] = 'number';
+      } else if (schema[type] === 'boolean') {
+        testRecord[field] = 'true';
+      }
+    }
+    expect(categories.sanitize(testRecord)).toBeUndefined();
   });
 
   it('can post() a new category', () => {
