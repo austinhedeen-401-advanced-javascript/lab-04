@@ -45,7 +45,7 @@ describe('Categories Model', () => {
         Object.keys(obj).forEach(key => {
           expect(category[0][key]).toEqual(obj[key]);
         });
-      }); // TODO - refactor this out to promise chain
+      });
   });
 
   it('can update() a category', () => {
@@ -70,6 +70,19 @@ describe('Categories Model', () => {
   });
 
   it('can delete() a category', () => {
-    // TODO - test delete()
+    let obj = { name: 'Test Category' };
+    return categories.create(obj)
+      .then(record => {
+        return categories.get(record.id);
+      })
+      .then(category => {
+        return categories.delete(category[0].id);
+      })
+      .then(() => {
+        return categories.get();
+      })
+      .then(category => {
+        expect(category.length).toEqual(0);
+      });
   });
 });
