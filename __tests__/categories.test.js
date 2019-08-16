@@ -1,3 +1,5 @@
+'use strict';
+
 const Categories = require('../categories/categories.js');
 
 describe('Categories Model', () => {
