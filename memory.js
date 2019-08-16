@@ -47,7 +47,7 @@ class Model {
       }
 
       // Check that properties have valid types
-      if (typeof entry[field] !== this.schema[field].type) {
+      if (entry[field] && typeof entry[field] !== this.schema[field].type) {
         valid = false;
       }
 
