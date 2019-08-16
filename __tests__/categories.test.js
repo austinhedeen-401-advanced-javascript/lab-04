@@ -20,6 +20,10 @@ describe('Categories Model', () => {
     expect(categories.sanitize(testRecord)).toBeUndefined();
   });
 
+  it('sanitize() returns undefined with arguments of the wrong type', () => {
+    // TODO - test that sanitize() type checks
+  });
+
   it('can post() a new category', () => {
     let obj = { name: 'Test Category' };
     return categories.create(obj)
@@ -40,8 +44,15 @@ describe('Categories Model', () => {
             Object.keys(obj).forEach(key => {
               expect(category[0][key]).toEqual(obj[key]);
             });
-          });
+          }); // TODO - refactor this out to promise chain
       });
   });
 
+  it('can update() a category', () => {
+    // TODO - test update()
+  });
+
+  it('can delete() a category', () => {
+    // TODO - test delete()
+  });
 });

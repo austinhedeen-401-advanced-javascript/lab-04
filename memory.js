@@ -40,6 +40,7 @@ class Model {
 		// Vinicio - your goal is to change that to check for types as well
 		// Please take inspiration from lab 02
 
+    // TODO - check for field types (string, number, boolean), valid values as well as required
     Object.keys(this.schema).forEach(field => {
       if (this.schema[field].required) {
         if (entry[field]) {
