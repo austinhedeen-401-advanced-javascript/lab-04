@@ -17,6 +17,32 @@ describe('Person Model', () => {
       .catch(error => console.error(error));
   });
 
+  test('sanitize() returns undefined with missing requirements', () => {
+    const schema = person.schema;
+    var testRecord = {};
+    for (let field in schema) {
+      if (schema[field].required) {
+        testRecord[field] = null;
+      }
+    }
+    expect(person.sanitize(testRecord)).toBeUndefined();
+  });
+
+  test('sanitize() returns undefined with arguments of the wrong type', () => {
+    const schema = person.schema;
+    const testRecord = {};
+    for (let field in schema) {
+      if (schema[field].type === 'string') {
+        testRecord[field] = 42;
+      } else if (schema[field].type === 'number') {
+        testRecord[field] = 'number';
+      } else if (schema[field].type === 'boolean') {
+        testRecord[field] = 'true';
+      }
+    }
+    expect(person.sanitize(testRecord)).toBeUndefined();
+  });
+
   test('can create() a new person', () => {
     return person.create(testPerson)
       .then(record => {
