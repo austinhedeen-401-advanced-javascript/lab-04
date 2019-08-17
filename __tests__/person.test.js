@@ -65,4 +65,45 @@ describe('Person Model', () => {
       })
       .catch(error => console.error(error));
   });
+
+
+  it('can update() a person', () => {
+    let updated = {
+      first_name: 'Samm',
+      last_name: 'Dunlop',
+      age: 24,
+    };
+    return person.create(testPerson)
+      .then(record => {
+        return person.get(record.id);
+      })
+      .then(record => {
+        updated.id = record[0].id;
+        return person.update(record[0].id, updated);
+      })
+      .then(record => {
+        return person.get(record.id);
+      })
+      .then(record => {
+        Object.keys(updated).forEach(key => {
+          expect(record[0][key]).toEqual(updated[key]);
+        });
+      });
+  });
+
+  it('can delete() a person', () => {
+    return person.create(testPerson)
+      .then(record => {
+        return person.get(record.id);
+      })
+      .then(record => {
+        return person.delete(record[0].id);
+      })
+      .then(() => {
+        return person.get();
+      })
+      .then(person => {
+        expect(person.length).toEqual(0);
+      });
+  });
 });
