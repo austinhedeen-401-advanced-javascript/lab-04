@@ -10,15 +10,15 @@ class Model {
   }
 
   init() {
-    return fileEdit.writeFile(this.dbFileName, {records:[]})
+    return fileEdit.writeFile(this.dbFileName, [])
       .then()
       .catch(error => console.error(error));
   }
 
   get(id) {
     return fileEdit.readFile(this.dbFileName)
-      .then(obj => {
-        return obj.records.filter(record => record.id === id);
+      .then(records => {
+        return records.filter(record => record.id === id);
       })
       .catch(error => console.error(error));
   }
@@ -28,20 +28,34 @@ class Model {
     const record = this.sanitize(entry);
 
     return fileEdit.readFile(this.dbFileName)
-      .then(obj => {
-        obj['records'].push(record);
-        return fileEdit.writeFile(this.dbFileName, obj);
+      .then(records => {
+        records.push(record);
+        return fileEdit.writeFile(this.dbFileName, records);
       })
       .then(() => record)
       .catch(error => console.error(error));
   }
 
   update(id, entry) {
+    const newRecord = this.sanitize(entry);
 
+    return fileEdit.readFile(this.dbFileName)
+      .then(records => {
+        const updatedRecords = records.map(record => (record.id === id) ? newRecord : record);
+        return fileEdit.writeFile(this.dbFileName, updatedRecords);
+      })
+      .then(() => newRecord)
+      .catch(error => console.error(error));
   }
 
   delete(id) {
-
+    return fileEdit.readFile(this.dbFileName)
+      .then(records => {
+        const updatedRecords = records.filter(record => record.id !== id);
+        return fileEdit.writeFile(this.dbFileName, updatedRecords);
+      })
+      .then(/* successful deletion */)
+      .catch(error => console.error(error));
   }
 
   sanitize(entry) {
