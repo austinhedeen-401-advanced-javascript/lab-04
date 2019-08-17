@@ -41,14 +41,17 @@ class Model {
 		// Please take inspiration from lab 02
 
     Object.keys(this.schema).forEach(field => {
-      if (this.schema[field].required) {
-        if (entry[field]) {
-          record[field] = entry[field];
-        } else {
-          valid = false;
-        }
+      // Check that required properties are present
+      if (this.schema[field].required && !entry[field]) {
+        valid = false;
       }
-      else {
+
+      // Check that properties have valid types
+      if (entry[field] && typeof entry[field] !== this.schema[field].type) {
+        valid = false;
+      }
+
+      if (valid) {
         record[field] = entry[field];
       }
     });
